@@ -50,7 +50,7 @@ public class WeatherActivity extends AppCompatActivity {
     public SwipeRefreshLayout swipeRefresh;
     public DrawerLayout drawerLayout;
     public Button navButton;
-
+    String mweatherId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +82,7 @@ public class WeatherActivity extends AppCompatActivity {
         navButton= (Button) findViewById(R.id.nav_button);
         SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(this);
         String weatherString=prefs.getString("weather",null);
-        final String mweatherId;
+
         if(weatherString!=null){
             Weather weather= Utility.handleWeatherResponse(weatherString);
             mweatherId=weather.basic.weatherId;
@@ -163,6 +163,7 @@ public class WeatherActivity extends AppCompatActivity {
                             SharedPreferences.Editor editor=PreferenceManager.getDefaultSharedPreferences(WeatherActivity.this).edit();
                             editor.putString("weather",responseText);
                             editor.apply();
+                            mweatherId=weather.basic.weatherId;
                             showWeatherInfo(weather);
                             Intent intent=new Intent(WeatherActivity.this, AutoUpdateService.class);
                             startService(intent);

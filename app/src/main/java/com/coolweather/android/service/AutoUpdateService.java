@@ -9,6 +9,7 @@ import android.os.IBinder;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.coolweather.android.gson.Weather;
 import com.coolweather.android.util.HttpUtil;
@@ -33,10 +34,12 @@ public class AutoUpdateService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+//        Log.d("和风天气","更新");
         updateWeather();
         updateBingPic();
         AlarmManager manager= (AlarmManager) getSystemService(ALARM_SERVICE);
         long anHour=8*60*60*1000;
+//        long anHour=5000;
         long triggerAtTime=SystemClock.elapsedRealtime()+anHour;
         Intent i=new Intent(this,AutoUpdateService.class);
         PendingIntent pi=PendingIntent.getService(this,0,i,0);
